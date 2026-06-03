@@ -1,0 +1,1322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Capable Kids Starter Guide — Raising Jordans</title>
+
+<script>
+  // Email-wall gate: bounce visitors who didn't sign up
+  (function() {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var unlockedParam = params.get('unlocked') === '1';
+      var unlockedStored = localStorage.getItem('rj_unlocked') === '1';
+      if (unlockedParam) {
+        localStorage.setItem('rj_unlocked', '1');
+        var name = params.get('name');
+        if (name) localStorage.setItem('rj_name', name);
+      }
+      if (!unlockedParam && !unlockedStored) {
+        window.location.replace('index.html');
+      }
+    } catch (err) {
+      // If localStorage is blocked, allow access (better UX than locking out)
+    }
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --cream: #FAF5EE;
+    --cream-2: #F2EADE;
+    --beige: #E6D9C4;
+    --ink: #1F1A14;
+    --ink-soft: #4A4036;
+    --ink-mute: #7A6F62;
+    --clay: #B85C38;
+    --clay-dark: #8E4225;
+    --sage: #7A8B6F;
+    --line: #D9CDB7;
+    --line-soft: #ECE2D0;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #E5DBC9;
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    padding: 96px 20px 40px;
+  }
+
+  /* Welcome / save bar (screen only) */
+  .welcome-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(250,245,238,0.12);
+    box-shadow: 0 4px 16px -8px rgba(0,0,0,0.3);
+  }
+  .welcome-bar .msg {
+    display: flex; align-items: center; gap: 12px;
+    min-width: 0;
+  }
+  .welcome-bar .check {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--clay); color: var(--cream);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .welcome-bar .text {
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .welcome-bar .text strong { font-weight: 600; color: var(--cream); }
+  .welcome-bar .text span.dim { color: rgba(250,245,238,0.7); }
+  .welcome-bar .actions { display: flex; gap: 10px; flex-shrink: 0; }
+  .welcome-bar button, .welcome-bar a.btn {
+    background: var(--cream);
+    color: var(--ink);
+    border: 0;
+    padding: 9px 16px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    transition: background .15s, color .15s;
+  }
+  .welcome-bar button:hover, .welcome-bar a.btn:hover {
+    background: var(--clay); color: var(--cream);
+  }
+  .welcome-bar a.btn.ghost {
+    background: transparent;
+    color: rgba(250,245,238,0.85);
+    border: 1px solid rgba(250,245,238,0.2);
+  }
+  .welcome-bar a.btn.ghost:hover {
+    background: rgba(250,245,238,0.08); color: var(--cream); border-color: rgba(250,245,238,0.4);
+  }
+
+  @media (max-width: 720px) {
+    body { padding: 88px 12px 16px; }
+    .welcome-bar { padding: 12px 16px; font-size: 13px; }
+    .welcome-bar .text { font-size: 12px; }
+    .welcome-bar a.btn.ghost { display: none; }
+    .welcome-bar button, .welcome-bar a.btn { padding: 7px 12px; font-size: 12px; }
+  }
+
+  @media print {
+    .welcome-bar { display: none !important; }
+    body { padding: 0 !important; background: white; }
+  }
+
+  /* "Page" container — feels like a printed booklet */
+  .page {
+    max-width: 760px;
+    margin: 0 auto 40px;
+    background: var(--cream);
+    border-radius: 4px;
+    box-shadow: 0 30px 60px -20px rgba(31,26,20,0.25), 0 8px 20px -8px rgba(31,26,20,0.15);
+    padding: 88px 88px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page + .page { margin-top: 0; }
+
+  /* Cover */
+  .cover {
+    min-height: 980px;
+    background: linear-gradient(165deg, var(--cream) 0%, var(--cream-2) 60%, var(--beige) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 96px 88px;
+    position: relative;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 8px;
+    background: var(--clay);
+  }
+  .cover .top {
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--ink-soft);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .cover .top .brand {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    letter-spacing: 0;
+    text-transform: none;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .cover .top .brand .dot { color: var(--clay); }
+
+  .cover .title-block { margin-top: 80px; }
+  .cover .eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--clay);
+    font-weight: 600;
+    margin-bottom: 28px;
+  }
+  .cover h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 78px;
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin: 0 0 32px;
+    color: var(--ink);
+  }
+  .cover h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--clay-dark);
+  }
+  .cover .sub {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+    max-width: 480px;
+  }
+  .cover .author {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .cover .author .rule {
+    width: 40px; height: 1px; background: var(--clay);
+  }
+  .cover .author span {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink);
+  }
+  .cover .footmark {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+    text-align: center;
+  }
+
+  /* Page header strip */
+  .page-head {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    font-weight: 600;
+    padding-bottom: 24px;
+    margin-bottom: 56px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .page-head .brand {
+    font-family: 'Fraunces', serif;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .page-head .brand .dot { color: var(--clay); }
+
+  /* Habit chapter cover */
+  .chapter {
+    margin-bottom: 48px;
+  }
+  .chapter .num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--clay);
+    letter-spacing: 0.04em;
+    margin-bottom: 16px;
+  }
+  .chapter h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 44px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 22px;
+    margin: 36px 0 14px;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+
+  /* Body text */
+  p {
+    margin: 0 0 18px;
+    color: var(--ink-soft);
+    font-size: 17px;
+    line-height: 1.75;
+  }
+  p strong { color: var(--ink); font-weight: 600; }
+
+  /* Drop cap on first paragraph of habits */
+  .chapter + p::first-letter,
+  .leadp::first-letter {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 64px;
+    float: left;
+    line-height: 0.85;
+    margin: 6px 10px 0 0;
+    color: var(--clay);
+  }
+
+  ul, ol {
+    margin: 0 0 22px;
+    padding-left: 0;
+    list-style: none;
+  }
+  ul li, ol li {
+    color: var(--ink-soft);
+    font-size: 17px;
+    line-height: 1.7;
+    padding: 8px 0 8px 36px;
+    position: relative;
+  }
+  ol { counter-reset: olnum; }
+  ol li {
+    counter-increment: olnum;
+  }
+  ol li::before {
+    content: counter(olnum, decimal-leading-zero);
+    position: absolute;
+    left: 0; top: 8px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--clay);
+  }
+  ul li::before {
+    content: '';
+    position: absolute;
+    left: 4px; top: 18px;
+    width: 14px; height: 1px;
+    background: var(--clay);
+  }
+  li strong { color: var(--ink); font-weight: 600; }
+
+  /* The "line:" callout */
+  .line {
+    margin: 36px 0 8px;
+    padding: 22px 28px;
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 6px;
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    line-height: 1.4;
+    font-weight: 500;
+    position: relative;
+  }
+  .line::before {
+    content: 'The line';
+    position: absolute;
+    top: -10px; left: 22px;
+    background: var(--clay);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 3px;
+  }
+
+  /* Pull quote */
+  .pull {
+    margin: 32px 0;
+    padding: 20px 0 20px 28px;
+    border-left: 3px solid var(--clay);
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    line-height: 1.35;
+    color: var(--ink);
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  /* Section break */
+  .break {
+    text-align: center;
+    margin: 56px 0;
+    color: var(--clay);
+    letter-spacing: 1em;
+    font-size: 14px;
+  }
+
+  /* Figures (SVG infographics) */
+  figure.fig {
+    margin: 40px 0 32px;
+    padding: 0;
+  }
+  figure.fig svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .fig-cap {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-mute);
+    text-align: center;
+    margin-top: 14px;
+  }
+
+  /* Decorative ornament */
+  .ornament {
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px;
+    margin: 48px 0;
+    color: var(--clay);
+  }
+  .ornament .rule {
+    width: 60px; height: 1px; background: var(--clay); opacity: 0.6;
+  }
+  .ornament .glyph {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--clay);
+  }
+
+  /* Sign-off */
+  .signoff {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink);
+    margin-top: 32px;
+  }
+
+  /* TOC */
+  .toc {
+    margin-top: 32px;
+  }
+  .toc-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line-soft);
+    gap: 24px;
+  }
+  .toc-item:last-child { border-bottom: 0; }
+  .toc-item .label {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--clay);
+    min-width: 80px;
+  }
+  .toc-item .title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: var(--ink);
+    flex: 1;
+    line-height: 1.3;
+  }
+  .toc-item .pg {
+    font-family: 'Inter', sans-serif;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-mute);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  /* Closing card */
+  .closing-card {
+    margin-top: 32px;
+    padding: 36px;
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 8px;
+  }
+  .closing-card h3 {
+    color: var(--cream);
+    margin-top: 0;
+  }
+  .closing-card p { color: rgba(250,245,238,0.8); }
+  .closing-card strong { color: var(--cream); }
+  .closing-card a { color: var(--clay); text-decoration: none; font-weight: 600; }
+
+  /* Back cover */
+  .back {
+    min-height: 720px;
+    background: var(--ink);
+    color: var(--cream);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 96px 88px;
+    text-align: center;
+  }
+  .back .mark {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--cream);
+  }
+  .back .mark .dot { color: var(--clay); }
+  .back .center h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--cream);
+    margin: 0 0 24px;
+    letter-spacing: -0.02em;
+  }
+  .back .center .tag {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: rgba(250,245,238,0.75);
+  }
+  .back .url {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(250,245,238,0.6);
+    font-weight: 600;
+  }
+
+  /* Print hints — let user export to PDF */
+  @media print {
+    body { background: white; padding: 0; }
+    .page {
+      box-shadow: none;
+      margin: 0 !important;
+      page-break-after: always;
+      border-radius: 0;
+    }
+    .page:last-child { page-break-after: auto; }
+  }
+
+  @media (max-width: 720px) {
+    body { padding: 12px; font-size: 15px; }
+    .page { padding: 48px 28px; }
+    .cover { padding: 56px 28px; min-height: auto; }
+    .cover h1 { font-size: 48px; }
+    .cover .sub { font-size: 18px; }
+    .chapter h2 { font-size: 32px; }
+    .pull { font-size: 20px; }
+    .line { font-size: 17px; padding: 20px 22px; }
+    .back { padding: 56px 28px; }
+    .back .center h2 { font-size: 38px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="welcome-bar" role="banner">
+  <div class="msg">
+    <span class="check" aria-hidden="true">&#10003;</span>
+    <div class="text">
+      <strong id="wb-greet">You're in.</strong>
+      <span class="dim"> Your guide is below. Save it so you have it forever.</span>
+    </div>
+  </div>
+  <div class="actions">
+    <a href="https://www.tiktok.com/@raisingjordans" target="_blank" rel="noopener" class="btn ghost">Follow on TikTok</a>
+    <button type="button" onclick="window.print()">Save as PDF</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    try {
+      var name = localStorage.getItem('rj_name');
+      if (name) {
+        document.getElementById('wb-greet').textContent = "You're in, " + name + ".";
+      }
+    } catch (err) {}
+  })();
+</script>
+
+<!-- COVER -->
+<section class="page cover">
+  <div class="top">
+    <div class="brand">Raising Jordans<span class="dot">.</span></div>
+    <div>Free Guide</div>
+  </div>
+
+  <div class="title-block">
+    <div class="eyebrow">A guide for moms</div>
+    <h1>The Capable Kids <em>Starter Guide</em></h1>
+    <p class="sub">Eight habits I use to raise capable, confident, resilient kids. Distilled from a lifetime in childcare.</p>
+    <div class="author">
+      <span class="rule"></span>
+      <span>by Madison Jordan</span>
+    </div>
+  </div>
+
+  <div class="footmark">Capable Kids · Confident Moms</div>
+</section>
+
+<!-- INTRO -->
+<section class="page">
+  <div class="page-head">
+    <div class="brand">Raising Jordans<span class="dot">.</span></div>
+    <div>A note from me</div>
+  </div>
+
+  <div class="chapter">
+    <div class="num">A note</div>
+    <h2>Hi mama. I'm Madison.</h2>
+  </div>
+
+  <p class="leadp">I grew up in my family's daycare, so I've been around kids since I could walk. I trained as an elementary teacher and taught fourth grade. I spent years traveling the world as an au pair, including for a high profile family in Australia. I worked as a maternity photographer and walked alongside hundreds of moms through their pregnancies. Then I had my own daughter, naturally, at home.</p>
+
+  <p>Most parenting advice online is written by people with one credential. I've lived nearly all of them.</p>
+
+  <div class="pull">Capable kids don't come from perfect parenting. They come from a few daily habits, repeated, and a mom who knows what she's doing.</div>
+
+  <p>That's it. That's the secret. They don't come from a Pinterest nursery, the right wooden toys, or following every viral expert.</p>
+
+  <p>This guide is seven of mine. Use what fits, leave what doesn't, and don't try to do all of them at once. Pick one. Run it for two weeks. Watch what happens.</p>
+
+  <p>You've got this.</p>
+
+  <div class="signoff">Madison</div>
+
+  <div class="ornament">
+    <span class="rule"></span>
+    <span class="glyph">&#x2767;</span>
+    <span class="rule"></span>
+  </div>
+</section>
+
+<!-- TOC -->
+<section class="page">
+  <div class="page-head">
+    <div class="brand">Raising Jordans<span class="dot">.</span></div>
+    <div>Contents</div>
+  </div>
+
+  <div class="chapter">
+    <div class="num">Inside</div>
+    <h2>Eight habits.</h2>
+  </div>
+
+  <div class="toc">
+    <div class="toc-item">
+      <span class="label">Habit 01</span>
+      <span class="title">Build the morning before the morning happens</span>
+      <span class="pg">04</span>
+    </div>
+    <div class="toc-item">
+      <span class="label">Habit 02</span>
+      <span class="title">Stop prompting manners. Start modeling them.</span>
+      <span class="pg">06</span>
+    </div>
+    <div class="toc-item">
+      <span class="label">Habit 03</span>
+      <span class="title">Let them struggle. On purpose.</span>
+      <span class="pg">08</span>
+    </div>
+    <div class="toc-item">
+      <span class="label">Habit 04</span>
+      <span class="title">What I learned watching wealthy families raise children</span>
+      <span class="pg">10</span>
+    </div>
+    <div class="toc-item">
+      <span class="label">Habit 05</span>
+      <span class="title">The problem is not the screen. It is the structure.</span>
+      <span class="pg">12</span>
+    </div>
+    <div class="toc-item">
+      <span class="label">Habit 06</span>
+      <span class="title">The bedtime sequence that ends the bedtime fight</span>
+      <span class="pg">14</span>
+    </div>
+    <div class="toc-item">
+      <span class="label">Habit 07</span>
+      <span class="title">The two-minute trick that ends restaurant meltdowns</span>
+      <span class="pg">16</span>
+    </div>
+    <div class="toc-item">
+      <span class="label">Habit 08</span>
+      <span class="title">Raise a kid who can do hard things</span>
+      <span class="pg">18</span>
+    </div>
+  </div>
+</section>
+
+<!-- HABIT 1 -->
+<section class="page">
+  <div class="page-head">
+    <div class="brand">Raising Jordans<span class="dot">.</span></div>
+    <div>Habit One</div>
+  </div>
+
+  <div class="chapter">
+    <div class="num">Habit 01</div>
+    <h2>Build the morning before the morning happens.</h2>
+  </div>
+
+  <p class="leadp">Most of the chaos before 8 a.m. is not your kid being difficult. It's your kid responding to a system that was never built.</p>
+
+  <p>Kids do not do well with surprises. They do well with rhythm. When the morning is the same shape every day, they stop fighting it, because there is nothing to fight.</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 600 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Four-step morning rhythm">
+      <rect width="600" height="210" fill="#F2EADE" rx="6"/>
+      <text x="30" y="34" font-family="Fraunces, serif" font-size="14" font-style="italic" fill="#7A6F62">A morning that holds.</text>
+      <path d="M 80 110 Q 155 78 230 110 T 380 110 T 530 110" stroke="#B85C38" stroke-width="1.5" fill="none"/>
+      <g>
+        <circle cx="80" cy="110" r="28" fill="#FAF5EE" stroke="#1F1A14" stroke-width="1.5"/>
+        <text x="80" y="116" text-anchor="middle" font-family="Fraunces, serif" font-size="16" font-weight="500" fill="#B85C38">01</text>
+        <text x="80" y="160" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#1F1A14">CONNECT</text>
+        <text x="80" y="178" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4A4036">5 min, no rush</text>
+      </g>
+      <g>
+        <circle cx="230" cy="110" r="28" fill="#FAF5EE" stroke="#1F1A14" stroke-width="1.5"/>
+        <text x="230" y="116" text-anchor="middle" font-family="Fraunces, serif" font-size="16" font-weight="500" fill="#B85C38">02</text>
+        <text x="230" y="160" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#1F1A14">SEQUENCE</text>
+        <text x="230" y="178" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4A4036">same order daily</text>
+      </g>
+      <g>
+        <circle cx="380" cy="110" r="28" fill="#FAF5EE" stroke="#1F1A14" stroke-width="1.5"/>
+        <text x="380" y="116" text-anchor="middle" font-family="Fraunces, serif" font-size="16" font-weight="500" fill="#B85C38">03</text>
+        <text x="380" y="160" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#1F1A14">NARRATE</text>
+        <text x="380" y="178" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4A4036">"next we..."</text>
+      </g>
+      <g>
+        <circle cx="530" cy="110" r="28" fill="#1F1A14" stroke="#1F1A14" stroke-width="1.5"/>
+        <text x="530" y="116" text-anchor="middle" font-family="Fraunces, serif" font-size="16" font-weight="500" fill="#B85C38">04</text>
+        <text x="530" y="160" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#1F1A14">NO SCREENS</text>
+        <text x="530" y="178" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4A4036">brain wakes up</text>
+      </g>
+    </svg>
+    <div class="fig-cap">The four moves that turn morning chaos into a held rhythm.</div>
+  </figure>
+
+  <h3>The rhythm I run with my daughter, and the same one I ran in elite households:</h3>
+
+  <ol>
+    <li>Wake up, no rush. Five minutes of connection before anything else. Eye contact, cuddles, a song. <strong>This is the anchor.</strong></li>
+    <li>Same sequence every day. Diaper or potty, get dressed, breakfast, brush teeth, out the door. <strong>Order does not change.</strong></li>
+    <li>Tell them what comes next, every time. "After breakfast, we brush teeth." Not as a question. As information.</li>
+    <li>No screens in the morning, ever. The morning is for the brain to wake up, not be entertained.</li>
+  </ol>
+
+  <p>If your kid pushes back on the rhythm in week one, that is not a sign it is not working. It is a sign the rhythm is new and they are testing the edges. <strong>Hold the line.</strong> By week two it will be the new normal.</p>
+
+  <div class="line">Predictability is not boring. It is safety. And safe kids are confident kids.</div>
+</section>
+
+<!-- HABIT 2 -->
+<section class="page">
+  <div class="page-head">
+    <div class="brand">Raising Jordans<span class="dot">.</span></div>
+    <div>Habit Two</div>
+  </div>
+
+  <div class="chapter">
+    <div class="num">Habit 02</div>
+    <h2>Stop prompting manners. Start modeling them.</h2>
+  </div>
+
+  <p class="leadp">Here is something I see almost every mom do. The kid gets handed a snack. Mom looks at the kid and says, "What do you say?"</p>
+
+  <p>I get it. We want polite kids. But here is what is actually being taught: <strong>manners are for performance.</strong> You say the magic word, mom is happy, the world moves on.</p>
+
+  <div class="pull">That is not character. That is compliance.</div>
+
+  <p>In the elite households I worked in, manners were never prompted. They were modeled. Constantly. The adults said please and thank you to each other, to the staff, to the kids, to strangers. The kids picked it up because that was the air they breathed.</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Prompted versus modeled manners comparison">
+      <rect width="600" height="280" fill="#F2EADE" rx="6"/>
+      <line x1="300" y1="32" x2="300" y2="252" stroke="#D9CDB7" stroke-width="1" stroke-dasharray="3 4"/>
+
+      <text x="150" y="44" text-anchor="middle" font-family="Fraunces, serif" font-size="13" font-style="italic" fill="#7A6F62">Most parents</text>
+      <text x="150" y="74" text-anchor="middle" font-family="Fraunces, serif" font-size="24" font-weight="500" fill="#1F1A14">Prompted</text>
+
+      <rect x="40" y="100" width="220" height="38" rx="4" fill="#FAF5EE" stroke="#1F1A14" stroke-width="1"/>
+      <text x="150" y="123" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#1F1A14">"What do you say?"</text>
+
+      <path d="M 150 144 L 150 168" stroke="#1F1A14" stroke-width="1.5" fill="none"/>
+      <path d="M 144 162 L 150 170 L 156 162" stroke="#1F1A14" stroke-width="1.5" fill="none"/>
+
+      <rect x="50" y="174" width="200" height="38" rx="4" fill="#E6D9C4" stroke="#1F1A14" stroke-width="1"/>
+      <text x="150" y="197" text-anchor="middle" font-family="Fraunces, serif" font-size="13" font-style="italic" fill="#1F1A14">"thank you" (rote)</text>
+
+      <rect x="65" y="226" width="170" height="22" rx="3" fill="#1F1A14"/>
+      <text x="150" y="241" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#FAF5EE" font-weight="700" letter-spacing="3">COMPLIANCE</text>
+
+      <text x="450" y="44" text-anchor="middle" font-family="Fraunces, serif" font-size="13" font-style="italic" fill="#B85C38">My way</text>
+      <text x="450" y="74" text-anchor="middle" font-family="Fraunces, serif" font-size="24" font-weight="500" fill="#1F1A14">Modeled</text>
+
+      <rect x="340" y="100" width="220" height="38" rx="4" fill="#FAF5EE" stroke="#1F1A14" stroke-width="1"/>
+      <text x="450" y="123" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#1F1A14">"thank you for waiting."</text>
+
+      <circle cx="450" cy="166" r="8" fill="none" stroke="#B85C38" stroke-width="1.2" opacity="0.7"/>
+      <circle cx="450" cy="166" r="14" fill="none" stroke="#B85C38" stroke-width="1.2" opacity="0.5"/>
+      <circle cx="450" cy="166" r="20" fill="none" stroke="#B85C38" stroke-width="1.2" opacity="0.3"/>
+
+      <rect x="350" y="186" width="200" height="38" rx="4" fill="#E6D9C4" stroke="#1F1A14" stroke-width="1"/>
+      <text x="450" y="209" text-anchor="middle" font-family="Fraunces, serif" font-size="13" font-style="italic" fill="#1F1A14">absorbs naturally</text>
+
+      <rect x="365" y="234" width="170" height="22" rx="3" fill="#B85C38"/>
+      <text x="450" y="249" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#FAF5EE" font-weight="700" letter-spacing="3">CHARACTER</text>
+    </svg>
+    <div class="fig-cap">Same end behavior. Different child.</div>
+  </figure>
+
+  <h3>What to do instead:</h3>
+
+  <ul>
+    <li>When you hand your kid something, you say thank you. To them. <strong>"Thank you for waiting."</strong> They will hear it five hundred times a week, and it will land.</li>
+    <li>When they want something, narrate the polite version out loud. "You are asking nicely for the cup. Here it is."</li>
+    <li>Drop the prompts. No more "what do you say." No more "say please." Trust the modeling.</li>
+  </ul>
+
+  <p>The first two weeks you will feel like nothing is happening. Then one day they will say thank you, unprompted, to a stranger, and you will realize they had it the whole time.</p>
+
+  <div class="line">Manners are caught, not taught.</div>
+</section>
+
+<!-- HABIT 3 -->
+<section class="page">
+  <div class="page-head">
+    <div class="brand">Raising Jordans<span class="dot">.</span></div>
+    <div>Habit Three</div>
+  </div>
+
+  <div class="chapter">
+    <div class="num">Habit 03</div>
+    <h2>Let them struggle. On purpose.</h2>
+  </div>
+
+  <p class="leadp">This is the one most moms cannot do. I know because I could not do it for the longest time either.</p>
+
+  <p>Your kid is trying to put on their shoe. They are getting frustrated. Every cell in your body wants to lean over and fix it. <strong>Don't.</strong></p>
+
+  <p>When you save your kid every time something is hard, you teach them two things. One, hard things are bad. Two, you do not believe they can do it. They believe you.</p>
+
+  <h3>The 10-second rule.</h3>
+
+  <p>When you see your kid struggling with something age-appropriate, count to ten before you step in. Most of the time, they figure it out. The other times, you step in with one small piece of help, not the whole solution.</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Productive struggle by age">
+      <rect width="600" height="220" fill="#F2EADE" rx="6"/>
+      <text x="30" y="34" font-family="Fraunces, serif" font-size="14" font-style="italic" fill="#7A6F62">What productive struggle looks like.</text>
+
+      <rect x="30" y="60" width="170" height="130" rx="4" fill="#FAF5EE" stroke="#D9CDB7" stroke-width="1"/>
+      <text x="50" y="86" font-family="Inter, sans-serif" font-size="10" font-weight="700" letter-spacing="2" fill="#B85C38">TODDLERS</text>
+      <text x="50" y="113" font-family="Inter, sans-serif" font-size="13" fill="#1F1A14">Carry the cup</text>
+      <text x="50" y="135" font-family="Inter, sans-serif" font-size="13" fill="#1F1A14">Climb the seat</text>
+      <text x="50" y="157" font-family="Inter, sans-serif" font-size="13" fill="#1F1A14">Fit the puzzle</text>
+
+      <path d="M 200 125 L 215 125" stroke="#1F1A14" stroke-width="1" fill="none"/>
+      <path d="M 210 120 L 217 125 L 210 130" stroke="#1F1A14" stroke-width="1" fill="none"/>
+
+      <rect x="215" y="60" width="170" height="130" rx="4" fill="#FAF5EE" stroke="#D9CDB7" stroke-width="1"/>
+      <text x="235" y="86" font-family="Inter, sans-serif" font-size="10" font-weight="700" letter-spacing="2" fill="#B85C38">PRESCHOOL</text>
+      <text x="235" y="113" font-family="Inter, sans-serif" font-size="13" fill="#1F1A14">Tie the shoes</text>
+      <text x="235" y="135" font-family="Inter, sans-serif" font-size="13" fill="#1F1A14">Pour the milk</text>
+      <text x="235" y="157" font-family="Inter, sans-serif" font-size="13" fill="#1F1A14">Clean the spill</text>
+
+      <path d="M 385 125 L 400 125" stroke="#1F1A14" stroke-width="1" fill="none"/>
+      <path d="M 395 120 L 402 125 L 395 130" stroke="#1F1A14" stroke-width="1" fill="none"/>
+
+      <rect x="400" y="60" width="170" height="130" rx="4" fill="#1F1A14" stroke="#1F1A14" stroke-width="1"/>
+      <text x="420" y="86" font-family="Inter, sans-serif" font-size="10" font-weight="700" letter-spacing="2" fill="#B85C38">ELEMENTARY</text>
+      <text x="420" y="113" font-family="Inter, sans-serif" font-size="13" fill="#FAF5EE">Pack the lunch</text>
+      <text x="420" y="135" font-family="Inter, sans-serif" font-size="13" fill="#FAF5EE">Solve the conflict</text>
+      <text x="420" y="157" font-family="Inter, sans-serif" font-size="13" fill="#FAF5EE">Read the hard word</text>
+    </svg>
+    <div class="fig-cap">Capability is built in years, not in moments.</div>
+  </figure>
+
+  <h3>What productive struggle looks like by age:</h3>
+
+  <ul>
+    <li><strong>Toddlers.</strong> Fitting a shape into the puzzle. Carrying their own water cup. Climbing into their car seat.</li>
+    <li><strong>Preschool.</strong> Putting on shoes and jacket. Pouring their own milk. Cleaning up the spill they made.</li>
+    <li><strong>Elementary.</strong> Packing their own lunch. Resolving a small conflict with a sibling. Reading a hard word.</li>
+  </ul>
+
+  <p>Your job is not to clear the path. Your job is to walk next to them while they figure out how to walk it.</p>
+
+  <div class="line">Comfort builds anxiety. Capability builds confidence.</div>
+</section>
+
+<!-- HABIT 4 -->
+<section class="page">
+  <div class="page-head">
+    <div class="brand">Raising Jordans<span class="dot">.</span></div>
+    <div>Habit Four</div>
+  </div>
+
+  <div class="chapter">
+    <div class="num">Habit 04</div>
+    <h2>What I learned watching wealthy families raise children.</h2>
+  </div>
+
+  <p class="leadp">The biggest myth about wealthy families is that they coddle their kids. The most successful family I worked for did the opposite. They were tougher than most middle-class families I have ever met.</p>
+
+  <p>Here are three things they did differently. Any family can do all three.</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three pillars: high expectations, built rituals, regulation as a skill">
+      <rect width="600" height="250" fill="#F2EADE" rx="6"/>
+      <text x="300" y="36" text-anchor="middle" font-family="Fraunces, serif" font-size="14" font-style="italic" fill="#7A6F62">Three things they did differently.</text>
+
+      <g>
+        <rect x="60" y="78" width="120" height="120" fill="#FAF5EE" stroke="#1F1A14" stroke-width="1.5"/>
+        <rect x="50" y="68" width="140" height="14" fill="#1F1A14"/>
+        <rect x="50" y="198" width="140" height="14" fill="#1F1A14"/>
+        <text x="120" y="130" text-anchor="middle" font-family="Fraunces, serif" font-size="36" font-weight="500" fill="#B85C38">I</text>
+        <text x="120" y="158" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1F1A14">High</text>
+        <text x="120" y="174" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1F1A14">Expectations</text>
+        <text x="120" y="234" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#7A6F62" font-style="italic">"You are capable."</text>
+      </g>
+
+      <g>
+        <rect x="240" y="78" width="120" height="120" fill="#FAF5EE" stroke="#1F1A14" stroke-width="1.5"/>
+        <rect x="230" y="68" width="140" height="14" fill="#1F1A14"/>
+        <rect x="230" y="198" width="140" height="14" fill="#1F1A14"/>
+        <text x="300" y="130" text-anchor="middle" font-family="Fraunces, serif" font-size="36" font-weight="500" fill="#B85C38">II</text>
+        <text x="300" y="158" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1F1A14">Built</text>
+        <text x="300" y="174" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1F1A14">Rituals</text>
+        <text x="300" y="234" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#7A6F62" font-style="italic">The day has bones.</text>
+      </g>
+
+      <g>
+        <rect x="420" y="78" width="120" height="120" fill="#FAF5EE" stroke="#1F1A14" stroke-width="1.5"/>
+        <rect x="410" y="68" width="140" height="14" fill="#1F1A14"/>
+        <rect x="410" y="198" width="140" height="14" fill="#1F1A14"/>
+        <text x="480" y="130" text-anchor="middle" font-family="Fraunces, serif" font-size="36" font-weight="500" fill="#B85C38">III</text>
+        <text x="480" y="158" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1F1A14">Regulation</text>
+        <text x="480" y="174" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1F1A14">as a Skill</text>
+        <text x="480" y="234" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#7A6F62" font-style="italic">A skill, not a stage.</text>
+      </g>
+    </svg>
+    <div class="fig-cap">The architecture of how they raised their kids.</div>
+  </figure>
+
+  <h3>They had high expectations and they did not lower them.</h3>
+
+  <p>The kids made their own beds. Cleared their own plates. Said good morning to the staff and looked them in the eye. The expectation was not "you might be tired." The expectation was <strong>"you are capable, and we are going to act like it."</strong></p>
+
+  <h3>They built rituals into everything.</h3>
+
+  <p>Every meal had a structure. Every bedtime had a sequence. Every transition between activities had a marker. Nothing was loose. The kids never had to guess what was happening, because the day had bones.</p>
+
+  <h3>They treated emotional regulation as a skill, not a stage.</h3>
+
+  <p>When a kid melted down, the adults did not say "they're tired" or "she's two." They said, "she is learning how to feel a hard feeling without falling apart." Then they helped her practice. Every time. The same way a piano teacher teaches scales.</p>
+
+  <p>That last one is the most important. Most parents treat tantrums as something to wait out. The wealthy families I worked for treated them as a teaching moment, every single time.</p>
+
+  <div class="line">High expectations are a form of love.</div>
+</section>
+
+<!-- HABIT 5 -->
+<section class="page">
+  <div class="page-head">
+    <div class="brand">Raising Jordans<span class="dot">.</span></div>
+    <div>Habit Five</div>
+  </div>
+
+  <div class="chapter">
+    <div class="num">Habit 05</div>
+    <h2>The problem is not the screen. It is the structure.</h2>
+  </div>
+
+  <p class="leadp">I am not going to tell you to throw away every device. I would not do it myself. The problem with screens is almost never the screen. It is that there are no rules around it.</p>
+
+  <p>Here is the framework I use.</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 600 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Four-question screen filter">
+      <rect width="600" height="290" fill="#F2EADE" rx="6"/>
+      <text x="300" y="36" text-anchor="middle" font-family="Fraunces, serif" font-size="14" font-style="italic" fill="#7A6F62">The four-question filter.</text>
+
+      <rect x="60" y="62" width="220" height="100" fill="#FAF5EE" stroke="#1F1A14" stroke-width="1.5" rx="4"/>
+      <text x="80" y="92" font-family="Fraunces, serif" font-size="24" font-weight="500" fill="#1F1A14">When</text>
+      <line x1="80" y1="105" x2="120" y2="105" stroke="#B85C38" stroke-width="1.5"/>
+      <text x="80" y="128" font-family="Inter, sans-serif" font-size="13" fill="#4A4036">Set the windows.</text>
+      <text x="80" y="148" font-family="Inter, sans-serif" font-size="13" fill="#4A4036">Hold them.</text>
+
+      <rect x="320" y="62" width="220" height="100" fill="#FAF5EE" stroke="#1F1A14" stroke-width="1.5" rx="4"/>
+      <text x="340" y="92" font-family="Fraunces, serif" font-size="24" font-weight="500" fill="#1F1A14">Where</text>
+      <line x1="340" y1="105" x2="380" y2="105" stroke="#B85C38" stroke-width="1.5"/>
+      <text x="340" y="128" font-family="Inter, sans-serif" font-size="13" fill="#4A4036">One room only.</text>
+      <text x="340" y="148" font-family="Inter, sans-serif" font-size="13" fill="#4A4036">Never the bedroom.</text>
+
+      <rect x="60" y="180" width="220" height="100" fill="#FAF5EE" stroke="#1F1A14" stroke-width="1.5" rx="4"/>
+      <text x="80" y="210" font-family="Fraunces, serif" font-size="24" font-weight="500" fill="#1F1A14">How long</text>
+      <line x1="80" y1="223" x2="120" y2="223" stroke="#B85C38" stroke-width="1.5"/>
+      <text x="80" y="246" font-family="Inter, sans-serif" font-size="13" fill="#4A4036">Visible timer.</text>
+      <text x="80" y="266" font-family="Inter, sans-serif" font-size="13" fill="#4A4036">No negotiation.</text>
+
+      <rect x="320" y="180" width="220" height="100" fill="#1F1A14" stroke="#1F1A14" stroke-width="1.5" rx="4"/>
+      <text x="340" y="210" font-family="Fraunces, serif" font-size="24" font-weight="500" fill="#FAF5EE">What</text>
+      <line x1="340" y1="223" x2="380" y2="223" stroke="#B85C38" stroke-width="1.5"/>
+      <text x="340" y="246" font-family="Inter, sans-serif" font-size="13" fill="#FAF5EE" opacity="0.85">More capable, or less?</text>
+      <text x="340" y="266" font-family="Fraunces, serif" font-size="13" font-style="italic" fill="#B85C38">The one filter.</text>
+    </svg>
+    <div class="fig-cap">Four questions, every screen, every time.</div>
+  </figure>
+
+  <h3>When.</h3>
+  <p>Pick the windows of the day where screens are okay. Stick to them. The kid should know, without asking, when a screen is and is not on the table.</p>
+
+  <h3>Where.</h3>
+  <p>Screens stay in one room. Not the bedroom. Not the car for short rides. Not at the table. Containing the location contains the dependency.</p>
+
+  <h3>How long.</h3>
+  <p>A timer the kid can see. When the timer goes, the screen goes. <strong>No negotiation.</strong> The first few times will be hard. Then it will be the new normal.</p>
+
+  <h3>What.</h3>
+  <p>This is the one most parents miss. The single question I ask before letting any show or app in: <strong>Does this make my kid more capable, or less?</strong> Slower content where things happen at a real pace. Shows that teach a skill. Apps where the kid has to think. Pass. Anything designed to keep them glued and dopamine-hooked. Skip.</p>
+
+  <h3>The script for taking a screen back without a meltdown:</h3>
+
+  <ul>
+    <li>"Five more minutes." (Set the timer.)</li>
+    <li>"One more minute."</li>
+    <li>"Time's up. Screen goes off. Where does it go?"</li>
+  </ul>
+
+  <p>The kid puts it away. Every time. They will fight you for the first three days. Hold. By day five, the fight is gone, because there is nothing to fight. The rule is the rule.</p>
+
+  <div class="line">Kids do not need fewer screens. They need clearer rules.</div>
+</section>
+
+<!-- HABIT 6 -->
+<section class="page">
+  <div class="page-head">
+    <div class="brand">Raising Jordans<span class="dot">.</span></div>
+    <div>Habit Six</div>
+  </div>
+
+  <div class="chapter">
+    <div class="num">Habit 06</div>
+    <h2>The bedtime sequence that ends the bedtime fight.</h2>
+  </div>
+
+  <p class="leadp">Most bedtime fights are not behavior problems. They are structure problems. The kid is being asked to go from full activation to sleep with no off-ramp.</p>
+
+  <p>Here is the four-step sequence I built as a teacher and use every night.</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 600 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bedtime descent: wind-down, transition, anchor, release">
+      <rect width="600" height="290" fill="#F2EADE" rx="6"/>
+      <text x="30" y="34" font-family="Fraunces, serif" font-size="14" font-style="italic" fill="#7A6F62">From day to sleep, in four steps.</text>
+
+      <circle cx="80" cy="80" r="14" fill="#B85C38"/>
+      <g stroke="#B85C38" stroke-width="1.2" opacity="0.7">
+        <line x1="80" y1="56" x2="80" y2="62"/>
+        <line x1="80" y1="98" x2="80" y2="104"/>
+        <line x1="56" y1="80" x2="62" y2="80"/>
+        <line x1="98" y1="80" x2="104" y2="80"/>
+      </g>
+      <text x="80" y="125" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="700" letter-spacing="3" fill="#1F1A14">DAY</text>
+
+      <rect x="135" y="65" width="130" height="48" rx="4" fill="#FAF5EE" stroke="#1F1A14" stroke-width="1.5"/>
+      <text x="200" y="86" text-anchor="middle" font-family="Fraunces, serif" font-size="15" font-weight="500" fill="#1F1A14">Wind-down</text>
+      <text x="200" y="103" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#7A6F62">45 min before bed</text>
+
+      <path d="M 265 89 L 285 117" stroke="#D9CDB7" stroke-width="1" stroke-dasharray="2 3"/>
+
+      <rect x="245" y="120" width="130" height="48" rx="4" fill="#FAF5EE" stroke="#1F1A14" stroke-width="1.5"/>
+      <text x="310" y="141" text-anchor="middle" font-family="Fraunces, serif" font-size="15" font-weight="500" fill="#1F1A14">Transition</text>
+      <text x="310" y="158" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#7A6F62">bath / pjs</text>
+
+      <path d="M 375 144 L 395 172" stroke="#D9CDB7" stroke-width="1" stroke-dasharray="2 3"/>
+
+      <rect x="355" y="175" width="130" height="48" rx="4" fill="#B85C38" stroke="#1F1A14" stroke-width="1.5"/>
+      <text x="420" y="196" text-anchor="middle" font-family="Fraunces, serif" font-size="15" font-weight="500" fill="#FAF5EE">Anchor</text>
+      <text x="420" y="213" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#FAF5EE" opacity="0.85">book + connection</text>
+
+      <path d="M 485 199 L 505 227" stroke="#D9CDB7" stroke-width="1" stroke-dasharray="2 3"/>
+
+      <rect x="430" y="230" width="130" height="48" rx="4" fill="#1F1A14" stroke="#1F1A14" stroke-width="1.5"/>
+      <text x="495" y="251" text-anchor="middle" font-family="Fraunces, serif" font-size="15" font-weight="500" fill="#FAF5EE">Release</text>
+      <text x="495" y="268" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#FAF5EE" opacity="0.65">lights out, leave</text>
+    </svg>
+    <div class="fig-cap">Each step lowers the volume on the day.</div>
+  </figure>
+
+  <h3>Wind-down.</h3>
+  <p>Forty-five minutes before bed, the energy of the house drops. Lights go warmer, voices go quieter, screens are off. <strong>The body starts to read the room.</strong></p>
+
+  <h3>Transition.</h3>
+  <p>A bath, or a wash, or pajamas. A physical change that signals "we are leaving the day." Same one every night. Repetition is the magic.</p>
+
+  <h3>Anchor.</h3>
+  <p>A book, a song, a moment of connection in the bedroom. This is the part most parents skip when they are exhausted. <strong>Do not skip it.</strong> This is the moment that tells the kid, "you are safe, you are loved, the day is closing."</p>
+
+  <h3>Release.</h3>
+  <p>Lights out, last words, leave the room. Calmly. With confidence. If they call you back, you go in once, you say one short thing, you leave again. Repeat as many times as it takes.</p>
+
+  <p>The first week of running this sequence, your kid will test it. They will get out of bed. They will ask for water. They will need one more hug. Hold the sequence. Quiet, calm, no big reactions, back to bed.</p>
+
+  <p>By week two, they will fall asleep faster than they ever have.</p>
+
+  <div class="line">A bedtime that holds is a gift to the whole family.</div>
+</section>
+
+<!-- HABIT 7 -->
+<section class="page">
+  <div class="page-head">
+    <div class="brand">Raising Jordans<span class="dot">.</span></div>
+    <div>Habit Seven</div>
+  </div>
+
+  <div class="chapter">
+    <div class="num">Habit 07</div>
+    <h2>The two-minute trick that ends restaurant meltdowns.</h2>
+  </div>
+
+  <p class="leadp">There is one thing I do in the car on the way to the restaurant, every single time, and it is the reason we rarely have a meltdown at the table. It takes about two minutes. It costs nothing. Most parents have never heard of it.</p>
+
+  <p>It is called <strong>the preview.</strong> And it is not lecturing your kid about how to behave.</p>
+
+  <p>It is walking them through what is about to happen, calmly, like you are telling them a small story. Where you are going. What will happen first. What will happen next. What you will do if they get bored.</p>
+
+  <div class="pull">A meltdown at a restaurant is almost never bad behavior. It is an unregulated nervous system meeting an unknown environment.</div>
+
+  <p>New room. New sounds. New smells. Hunger lurking. Their bodies are working overtime to keep up. Then we ask them to sit still and be polite for an hour, and we are surprised when they fall apart.</p>
+
+  <p>Preview does not eliminate the hard. <strong>It shrinks the unknown.</strong> And the smaller the unknown, the more regulated the kid.</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 600 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Four preview moments: car, wait, order, eat">
+      <rect width="600" height="230" fill="#F2EADE" rx="6"/>
+      <text x="30" y="34" font-family="Fraunces, serif" font-size="14" font-style="italic" fill="#7A6F62">The four moments to preview.</text>
+
+      <path d="M 80 120 L 530 120" stroke="#B85C38" stroke-width="1.5" fill="none" stroke-dasharray="4 5"/>
+
+      <g>
+        <circle cx="80" cy="120" r="28" fill="#FAF5EE" stroke="#1F1A14" stroke-width="1.5"/>
+        <text x="80" y="126" text-anchor="middle" font-family="Fraunces, serif" font-size="16" font-weight="500" fill="#B85C38">01</text>
+        <text x="80" y="170" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#1F1A14">CAR</text>
+        <text x="80" y="188" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4A4036">tell the story</text>
+      </g>
+      <g>
+        <circle cx="230" cy="120" r="28" fill="#FAF5EE" stroke="#1F1A14" stroke-width="1.5"/>
+        <text x="230" y="126" text-anchor="middle" font-family="Fraunces, serif" font-size="16" font-weight="500" fill="#B85C38">02</text>
+        <text x="230" y="170" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#1F1A14">WAIT</text>
+        <text x="230" y="188" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4A4036">small still game</text>
+      </g>
+      <g>
+        <circle cx="380" cy="120" r="28" fill="#FAF5EE" stroke="#1F1A14" stroke-width="1.5"/>
+        <text x="380" y="126" text-anchor="middle" font-family="Fraunces, serif" font-size="16" font-weight="500" fill="#B85C38">03</text>
+        <text x="380" y="170" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#1F1A14">TABLE</text>
+        <text x="380" y="188" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4A4036">stay in the seat</text>
+      </g>
+      <g>
+        <circle cx="530" cy="120" r="28" fill="#1F1A14" stroke="#1F1A14" stroke-width="1.5"/>
+        <text x="530" y="126" text-anchor="middle" font-family="Fraunces, serif" font-size="16" font-weight="500" fill="#B85C38">04</text>
+        <text x="530" y="170" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#1F1A14">FOOD</text>
+        <text x="530" y="188" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4A4036">wait for everyone</text>
+      </g>
+    </svg>
+    <div class="fig-cap">Four small previews. Two minutes total. Before you ever walk in.</div>
+  </figure>
+
+  <h3>The four moments to walk them through.</h3>
+
+  <ol>
+    <li><strong>In the car.</strong> "When we get there, we are going to wait to be seated. While we wait, we will play a little game." Make it fun, not a warning. You are painting a picture, not lecturing about behavior.</li>
+    <li><strong>While we wait.</strong> Have a tiny still game ready. Something like, <strong>"is it in my left hand or my right hand?"</strong> Kids love this. It costs nothing, takes no setup, and burns the waiting energy.</li>
+    <li><strong>At the table.</strong> "The server will come and take our order. The food might take a few minutes. We can play another game, but only if you can stay in your seat. We can still have fun while sitting down."</li>
+    <li><strong>After the food.</strong> "We are going to wait until everyone is finished eating before we stand up." Tell them this <em>before</em> the food arrives, not in the middle of the meal.</li>
+  </ol>
+
+  <p>That is it. You are not threatening. You are not warning. You are not bargaining. You are giving their nervous system a map of the next ninety minutes, so when those minutes arrive, nothing is a surprise.</p>
+
+  <h3>This is the Capable Kid Equation in action.</h3>
+
+  <ul>
+    <li><strong>Connection.</strong> You took two minutes to prepare them, together, in the car. They felt seen before the hard thing started.</li>
+    <li><strong>Regulation.</strong> They know what is coming, so their nervous system can settle. The unknown shrinks.</li>
+    <li><strong>Skill.</strong> They are now building the skill of patience, of sitting, of being in a restaurant. Every preview is a rep.</li>
+  </ul>
+
+  <p>That is how you get freedom at the dinner table. <strong>You build the foundation in the car, before you ever walk through the door.</strong></p>
+
+  <p>Try the preview at your next outing and see what happens. The first time may not be perfect. By the third or fourth, you will not believe the difference.</p>
+
+  <div class="line">Preview does not eliminate the hard. It shrinks the unknown.</div>
+</section>
+
+<!-- HABIT 8 -->
+<section class="page">
+  <div class="page-head">
+    <div class="brand">Raising Jordans<span class="dot">.</span></div>
+    <div>Habit Eight</div>
+  </div>
+
+  <div class="chapter">
+    <div class="num">Habit 08</div>
+    <h2>Raise a kid who can do hard things.</h2>
+  </div>
+
+  <p class="leadp">Everything in this guide comes back to this one idea.</p>
+
+  <p>Most parenting advice right now is about comfort. Make the day softer. Take the friction out. Buy the thing that solves the problem. I understand the impulse. I love my daughter. I do not want her to suffer.</p>
+
+  <p>But comfort and capability live on opposite ends of a line, and the more we pull our kids toward one, the further we push them from the other.</p>
+
+  <div class="pull">A capable kid is not a kid who has had an easy life. A capable kid is a kid who has learned that hard things are survivable, and that they are the kind of person who can do them.</div>
+
+  <figure class="fig">
+    <svg viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="What compounds across the years">
+      <rect width="600" height="250" fill="#F2EADE" rx="6"/>
+      <text x="30" y="34" font-family="Fraunces, serif" font-size="14" font-style="italic" fill="#7A6F62">What compounds.</text>
+
+      <line x1="60" y1="200" x2="540" y2="200" stroke="#D9CDB7" stroke-width="1"/>
+      <line x1="60" y1="200" x2="60" y2="60" stroke="#D9CDB7" stroke-width="1"/>
+
+      <path d="M 80 195 Q 200 180 220 168 T 380 110 T 520 65" stroke="#B85C38" stroke-width="2" fill="none"/>
+
+      <circle cx="80" cy="195" r="6" fill="#B85C38"/>
+      <text x="80" y="220" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" letter-spacing="2" fill="#1F1A14">AGE 3</text>
+      <text x="80" y="180" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#4A4036">"hard things</text>
+      <text x="80" y="170" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#4A4036">are survivable"</text>
+
+      <circle cx="220" cy="168" r="6" fill="#B85C38"/>
+      <text x="220" y="220" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" letter-spacing="2" fill="#1F1A14">AGE 8</text>
+      <text x="220" y="153" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#4A4036">tries the harder</text>
+      <text x="220" y="143" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#4A4036">math problem</text>
+
+      <circle cx="380" cy="110" r="6" fill="#B85C38"/>
+      <text x="380" y="220" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" letter-spacing="2" fill="#1F1A14">AGE 15</text>
+      <text x="380" y="95" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#4A4036">speaks up</text>
+      <text x="380" y="85" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#4A4036">in the room</text>
+
+      <circle cx="520" cy="65" r="9" fill="#1F1A14"/>
+      <text x="520" y="220" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" letter-spacing="2" fill="#1F1A14">AGE 25</text>
+      <text x="520" y="48" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#4A4036">builds a life</text>
+      <text x="520" y="38" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#4A4036">on purpose</text>
+
+      <text x="48" y="64" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-style="italic" fill="#7A6F62">capability</text>
+    </svg>
+    <div class="fig-cap">A thousand small moments stack into one capable adult.</div>
+  </figure>
+
+  <p>That kid does not get built in a single big moment. That kid gets built in a thousand small ones. The ten-second pause before you tie their shoe. The held line at bedtime. The "I trust you" instead of "let me help." The unprompted thank you that shows up six months from now.</p>
+
+  <h3>Five small things to start this week:</h3>
+
+  <ol>
+    <li>Pick one thing your kid currently asks you to do for them, that they could do themselves. Stop doing it. Show them how, then step back.</li>
+    <li>The next time they melt down, do not rush to soothe. Sit with them. <strong>"This is hard. I am right here."</strong> Let them practice the feeling.</li>
+    <li>Drop one prompt. No more "what do you say." Trust the modeling.</li>
+    <li>Pick one bedtime night this week and run the four-step sequence. Watch what changes.</li>
+    <li>The next time you feel the urge to step in and fix, count to ten.</li>
+  </ol>
+
+  <p>Run those for two weeks. <strong>You will not recognize your kid.</strong></p>
+
+  <p>The long view is this. The habits you build in these years compound. The kid who learns at three that hard things are survivable becomes the eight-year-old who tries the harder math problem, becomes the fifteen-year-old who speaks up in a room, becomes the twenty-five-year-old who builds a life on purpose.</p>
+
+  <p>That kid starts here. With you. Today.</p>
+
+  <p>You've got this, mama.</p>
+
+  <div class="signoff">Madison</div>
+</section>
+
+<!-- WHAT'S NEXT -->
+<section class="page">
+  <div class="page-head">
+    <div class="brand">Raising Jordans<span class="dot">.</span></div>
+    <div>What's next</div>
+  </div>
+
+  <div class="chapter">
+    <div class="num">What's next</div>
+    <h2>This guide is a start.</h2>
+  </div>
+
+  <p class="leadp">There is so much more I want to share with you, and I am building it. If this resonated with you, here is where to find me.</p>
+
+  <h3>TikTok.</h3>
+  <p>@raisingjordans. New lessons every day. Real footage of me running these habits with my daughter, and answers to the questions other moms are asking.</p>
+
+  <h3>Email.</h3>
+  <p>You are already on the list. I will send you one short note each week, one practical idea you can run that day. No fluff, no spam.</p>
+
+  <div class="closing-card">
+    <h3>Coming soon: Raising Capable Kids</h3>
+    <p>I am building the full course. Everything in this guide, plus the chapters I could not fit. <strong>Reply to any of my emails and tell me what you would want it to cover.</strong> I read every reply.</p>
+  </div>
+
+  <div class="break">· · ·</div>
+
+  <p style="text-align: center;">If this guide helped you, the highest compliment is sharing it with one mom in your life who needs it.</p>
+</section>
+
+<!-- BACK COVER -->
+<section class="page back">
+  <div class="mark">Raising Jordans<span class="dot">.</span></div>
+  <div class="center">
+    <h2>Capable kids.<br />Confident moms.</h2>
+    <div class="tag">For the moms who want to do this on purpose.</div>
+  </div>
+  <div class="url">raisingjordans.com</div>
+</section>
+
+</body>
+</html>

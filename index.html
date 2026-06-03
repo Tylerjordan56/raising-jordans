@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Raising Jordans — Capable Kids. Confident Moms.</title>
+<meta name="description" content="Madison Jordan helps mothers raise capable, confident, resilient kids. Drawing from a lifetime in childcare, a teaching career, and years as an au pair traveling the world for different families." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --cream: #FAF5EE;
+    --cream-2: #F2EADE;
+    --beige: #E6D9C4;
+    --ink: #1F1A14;
+    --ink-soft: #4A4036;
+    --clay: #B85C38;
+    --clay-dark: #8E4225;
+    --sage: #7A8B6F;
+    --line: #D9CDB7;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  a { color: var(--clay-dark); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  /* Top bar */
+  .topbar {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+    background: var(--cream);
+  }
+  .topbar .row {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+  }
+  .brand .dot { color: var(--clay); }
+  .topnav a {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-left: 24px;
+    font-weight: 500;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 80px 0 64px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero .grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--clay);
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: clamp(40px, 5.5vw, 64px);
+    margin-bottom: 24px;
+  }
+  .lede {
+    font-size: 19px;
+    color: var(--ink-soft);
+    max-width: 540px;
+    margin-bottom: 32px;
+  }
+
+  /* Form card */
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 36px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.02), 0 24px 48px -24px rgba(31,26,20,0.18);
+  }
+  .card h3 {
+    font-size: 26px;
+    margin-bottom: 8px;
+  }
+  .card p.sub {
+    color: var(--ink-soft);
+    font-size: 15px;
+    margin: 0 0 24px;
+  }
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .field input {
+    width: 100%;
+    border: 1px solid var(--line);
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 13px 14px;
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .field input:focus {
+    border-color: var(--clay);
+    box-shadow: 0 0 0 3px rgba(184,92,56,0.15);
+    background: #fff;
+  }
+  .btn {
+    display: inline-block;
+    width: 100%;
+    background: var(--ink);
+    color: var(--cream);
+    border: 0;
+    padding: 15px 22px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    transition: background .15s, transform .05s;
+  }
+  .btn:hover { background: var(--clay-dark); }
+  .btn:active { transform: translateY(1px); }
+  .fineprint {
+    font-size: 12px;
+    color: var(--ink-soft);
+    text-align: center;
+    margin-top: 12px;
+  }
+
+  /* Credibility strip */
+  .creds {
+    background: var(--cream-2);
+    padding: 36px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .creds .list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px 56px;
+    justify-content: center;
+    color: var(--ink-soft);
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .creds .list span { white-space: nowrap; }
+  .creds .list .sep { color: var(--clay); opacity: 0.6; }
+
+  /* Story */
+  .story { padding: 96px 0; }
+  .story .grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .story h2 {
+    font-size: clamp(32px, 4vw, 44px);
+    margin-bottom: 24px;
+  }
+  .story p {
+    color: var(--ink-soft);
+    margin: 0 0 18px;
+  }
+  .pull {
+    border-left: 3px solid var(--clay);
+    padding: 10px 0 10px 22px;
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    color: var(--ink);
+    font-weight: 500;
+    line-height: 1.35;
+    margin: 24px 0;
+  }
+
+  /* Guide section */
+  .guide {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 96px 0;
+  }
+  .guide .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .guide h2 {
+    color: var(--cream);
+    font-size: clamp(32px, 4vw, 44px);
+    margin-bottom: 22px;
+  }
+  .guide p { color: rgba(250,245,238,0.78); margin: 0 0 18px; }
+  .guide ul { padding: 0; margin: 24px 0 32px; list-style: none; }
+  .guide li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(250,245,238,0.12);
+    display: flex; align-items: flex-start; gap: 14px;
+    color: rgba(250,245,238,0.92);
+  }
+  .guide li:last-child { border-bottom: 0; }
+  .guide li .num {
+    font-family: 'Fraunces', serif;
+    color: var(--clay);
+    font-weight: 600;
+    font-size: 15px;
+    min-width: 20px;
+  }
+
+  .hero-photo {
+    margin: 0;
+    aspect-ratio: 4/5;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px -30px rgba(0,0,0,0.5);
+  }
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Second CTA */
+  .cta2 {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--line);
+    background: var(--cream-2);
+  }
+  .cta2 .inner {
+    max-width: 560px; margin: 0 auto; text-align: center;
+  }
+  .cta2 h2 {
+    font-size: clamp(28px, 3.6vw, 38px);
+    margin-bottom: 14px;
+  }
+  .cta2 p { color: var(--ink-soft); margin-bottom: 28px; }
+  .cta2 form {
+    display: flex; gap: 10px;
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 12px; padding: 8px;
+  }
+  .cta2 input {
+    flex: 1; border: 0; outline: 0;
+    background: transparent;
+    font-family: inherit; font-size: 16px;
+    padding: 12px 14px;
+    color: var(--ink);
+  }
+  .cta2 button {
+    background: var(--ink); color: var(--cream);
+    border: 0; border-radius: 8px;
+    padding: 12px 22px; font-weight: 600; font-size: 15px;
+    font-family: inherit; cursor: pointer;
+  }
+  .cta2 button:hover { background: var(--clay-dark); }
+
+  /* Footer */
+  footer {
+    padding: 48px 0;
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+  footer .brand { font-size: 18px; margin-bottom: 12px; }
+  footer a { color: var(--ink-soft); margin: 0 12px; }
+
+  @media (max-width: 880px) {
+    .hero { padding: 56px 0 48px; }
+    .hero .grid, .story .grid, .guide .grid {
+      grid-template-columns: 1fr; gap: 48px;
+    }
+    .creds .list { gap: 16px 24px; }
+    .creds .list .sep { display: none; }
+    .topnav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap row">
+    <div class="brand">Raising Jordans<span class="dot">.</span></div>
+    <nav class="topnav">
+      <a href="#about">About Madison</a>
+      <a href="#guide">Free Guide</a>
+      <a href="https://www.tiktok.com/@raisingjordans" target="_blank" rel="noopener">TikTok</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap grid">
+    <div>
+      <div class="eyebrow">Capable Kids. Confident Moms.</div>
+      <h1>Raise kids who can actually do hard things.</h1>
+      <p class="lede">
+        I'm Madison. I spent years as an au pair for a high profile family in Australia. Half a decade as an elementary teacher. A lifetime in childcare before becoming a mom myself. I help mothers raise capable, confident, resilient kids without the chaos.
+      </p>
+    </div>
+
+    <form class="card js-gate-form" name="lead-magnet" method="POST" action="guide.html?unlocked=1">
+      <input type="hidden" name="form-name" value="lead-magnet" />
+      <p style="display:none"><label>Don't fill this out: <input name="bot-field" /></label></p>
+
+      <h3>Free guide</h3>
+      <p class="sub">8 daily habits I use to raise capable, confident kids. Distilled from 20+ years working with kids of every age and background.</p>
+
+      <div class="field">
+        <label for="firstName">First name</label>
+        <input id="firstName" name="firstName" type="text" required autocomplete="given-name" />
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required autocomplete="email" />
+      </div>
+
+      <button type="submit" class="btn">Send me the guide</button>
+      <div class="fineprint">Free. No spam. Unsubscribe anytime.</div>
+    </form>
+  </div>
+</section>
+
+<section class="creds">
+  <div class="wrap">
+    <div class="list">
+      <span>Family-run daycare since age 3</span>
+      <span class="sep">/</span>
+      <span>Credentialed elementary teacher</span>
+      <span class="sep">/</span>
+      <span>Au pair, high profile family</span>
+      <span class="sep">/</span>
+      <span>Maternity photographer</span>
+      <span class="sep">/</span>
+      <span>Natural homebirth mom</span>
+    </div>
+  </div>
+</section>
+
+<section class="story" id="about">
+  <div class="wrap grid">
+    <div>
+      <div class="eyebrow">About Madison</div>
+      <h2>I've raised kids in nearly every context.</h2>
+    </div>
+    <div>
+      <p>
+        I grew up in my family's daycare, so I've been around children since I could walk. I trained as an elementary teacher, then traveled the world for years as an au pair, including for a high profile family in Australia. I came home and taught fourth grade. I worked as a maternity photographer and walked alongside hundreds of mothers through their pregnancies. Then I had my own daughter, naturally and at home.
+      </p>
+      <div class="pull">
+        Most parenting advice online is written by people with one credential. I've lived nearly all of them.
+      </div>
+      <p>
+        What I've learned is this: capable kids don't come from perfect parenting. They come from a few daily habits, repeated, and a mother who knows what she's doing. That's what I help moms build.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="guide" id="guide">
+  <div class="wrap grid">
+    <div>
+      <div class="eyebrow" style="color: var(--clay);">The Free Guide</div>
+      <h2>The Capable Kids Starter Guide</h2>
+      <p>
+        The 8 daily habits I use that build independence, confidence, and resilience in children of any age. Practical, no fluff, nothing you have to buy.
+      </p>
+      <ul>
+        <li><span class="num">01</span><span>The morning rhythm that ends the chaos before 8 a.m.</span></li>
+        <li><span class="num">02</span><span>The one phrase elite families use that most parents never say</span></li>
+        <li><span class="num">03</span><span>How to let kids struggle, on purpose, without breaking them</span></li>
+        <li><span class="num">04</span><span>What I learned watching billionaires raise children</span></li>
+        <li><span class="num">05</span><span>Screen rules that actually hold (without becoming a fight)</span></li>
+        <li><span class="num">06</span><span>The bedtime sequence I built as a teacher and use every night</span></li>
+        <li><span class="num">07</span><span>The two-minute trick that ends restaurant meltdowns</span></li>
+        <li><span class="num">08</span><span>How to raise a kid who can do hard things</span></li>
+      </ul>
+    </div>
+    <figure class="hero-photo">
+      <img src="madison-tyler.jpg" alt="Madison and Tyler Jordan" loading="lazy" />
+    </figure>
+  </div>
+</section>
+
+<section class="cta2">
+  <div class="wrap inner">
+    <h2>Get the guide.</h2>
+    <p>Drop your email and I'll send it over.</p>
+    <form class="js-gate-form" name="lead-magnet-footer" method="POST" action="guide.html?unlocked=1">
+      <input type="hidden" name="form-name" value="lead-magnet-footer" />
+      <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
+      <button type="submit">Send it</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand">Raising Jordans<span style="color: var(--clay);">.</span></div>
+    <div>
+      <a href="https://www.tiktok.com/@raisingjordans" target="_blank" rel="noopener">TikTok</a>
+      <a href="#guide">Free Guide</a>
+      <a href="mailto:hello@raisingjordans.com">Contact</a>
+    </div>
+    <div style="margin-top: 18px; font-size: 12px; opacity: 0.7;">
+      &copy; <span id="yr"></span> Raising Jordans. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Email gate: AJAX submit straight to Make webhook (-> Google Sheet), set unlock flag, redirect to guide
+  var MAKE_WEBHOOK = 'https://hook.us2.make.com/7bn4chy6xldasxk2ds755jb808yimks0';
+  document.querySelectorAll('form.js-gate-form').forEach(function(form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var data = new FormData(form);
+      if (data.get('bot-field')) { return; } // honeypot: silently drop bots
+      var firstName = data.get('firstName') || '';
+      var email = data.get('email') || '';
+      var btn = form.querySelector('button[type="submit"]');
+      if (btn) { btn.disabled = true; btn.dataset.orig = btn.textContent; btn.textContent = 'Sending...'; }
+      function go() {
+        try {
+          localStorage.setItem('rj_unlocked', '1');
+          if (firstName) localStorage.setItem('rj_name', firstName);
+        } catch (err) {}
+        window.location.href = 'guide.html?unlocked=1' + (firstName ? '&name=' + encodeURIComponent(firstName) : '');
+      }
+      fetch(MAKE_WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          created_at: new Date().toISOString(),
+          form_name: form.getAttribute('name'),
+          data: { firstName: firstName, email: email }
+        })
+      }).then(go).catch(go); // soft gate: always open the guide, capture is best-effort
+    });
+  });
+</script>
+
+</body>
+</html>
